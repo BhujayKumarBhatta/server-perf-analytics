@@ -17,7 +17,7 @@ Apache benchmark to generate load and Custom scripts to generate the perf metric
  5. Now we will inject fault . a. Type 1 fault - by increasing application load e.g. user count/ # of transaction etc. drive n > 2ms . This should not be for long but randomly injected. Record the time ( random times) so that we can later know in what duration the fault was injected.  b. Type2 fault - stress ng - CPU fault , RAM fault , disk full , network fault - randomly and record time. This should be also logged in syslog or other logs .
  
  
- The format for the combined  KPI data:  
+ The format for the combined  KPI data:  https://docs.google.com/spreadsheets/d/14uQVPeb4JJUG9FRVnSNpasqQxUJt_ZZdAZCrPkQVvKE/edit#gid=0
  "Time
 5 min 
 Interval"	"Fault 
@@ -37,17 +37,25 @@ requests"	Add more ....
 Steps involved for cobining the metrics are:
 
 Open benchmark.log and find the line starting with " load test start time"	
+
 Then on the same line extract the time information {{T}} 	"Mon Dec 27 15:54:02 IST 2021"
+
 extract time per request resp time {{RESP_TIME}} and fail requst {{FAIL_REQ}} 	
+
 	Time per request:       361.828 [ms] (mean)
+	
 	Failed requests:        4055
+	
 Then open output file which is combined KPI.CSV and the resp time and failed request as a new column 	
+
 Now open perf_mon_summ.csv find the time peak T to be reforamtted to match the timestamp perf_mon_sum.csv example	
+
 	27-12 15:54:18|
+	
 For each Column (CPU/MEM etc) corrosponding to this minute (15:54) there will 30 values in the 15:54:18, 15:54:19 ... etc	
+
 Will take avg of this value and update the KPI.csv	
-Also check during the same time open the random_stress.txt whether any fault injected or not	
-If any fault detected during the time then Mark fault injected along with type of fault else mark none	
-then iterate this process , 	
+
+Also check during the same time open the random_stress.txt whether any fault injected or not. If any fault detected during the time then Mark fault injected along with type of fault else mark none	then iterate this process , 	
 
  
